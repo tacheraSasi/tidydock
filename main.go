@@ -246,8 +246,8 @@ func parseKeepFlag(args []string) string {
 				return args[i+1]
 			}
 		}
-		if strings.HasPrefix(arg, "--keep=") {
-			return strings.TrimPrefix(arg, "--keep=")
+		if after, ok :=strings.CutPrefix(arg, "--keep="); ok  {
+			return after
 		}
 	}
 	return ""
@@ -263,7 +263,7 @@ func dockerRun(args ...string) string {
 }
 
 func printReclaimed(out string) {
-	for _, line := range strings.Split(out, "\n") {
+	for line := range strings.SplitSeq(out, "\n") {
 		if strings.Contains(strings.ToLower(line), "reclaimed") ||
 			strings.Contains(strings.ToLower(line), "deleted") ||
 			strings.Contains(strings.ToLower(line), "total") {
